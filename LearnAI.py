@@ -35,11 +35,20 @@ kernel_regularizer = l2(0.0005)
 kernel_initializer = "he_normal"
 model = keras.Sequential()
 
-# model.add(keras.layers.Conv2D(32, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
-#                               kernel_initializer=kernel_initializer,
-#                               kernel_regularizer=kernel_regularizer))
-# model.add(keras.layers.BatchNormalization())
-# model.add(keras.layers.Dropout(0.2))
+model.add(keras.layers.Conv2D(16, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
+                              kernel_regularizer=kernel_regularizer))
+model.add(keras.layers.BatchNormalization())
+
+model.add(keras.layers.Conv2D(16, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
+                              kernel_regularizer=kernel_regularizer))
+model.add(keras.layers.MaxPooling2D(2))
+model.add(keras.layers.Dropout(0.2))
+model.add(keras.layers.BatchNormalization())
+
+model.add(keras.layers.Conv2D(32, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
+                              kernel_initializer=kernel_initializer,
+                              kernel_regularizer=kernel_regularizer))
+model.add(keras.layers.BatchNormalization())
 
 model.add(keras.layers.Conv2D(32, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
                               kernel_initializer=kernel_initializer,
@@ -48,23 +57,11 @@ model.add(keras.layers.MaxPooling2D(2))
 model.add(keras.layers.Dropout(0.2))
 model.add(keras.layers.BatchNormalization())
 
-# model.add(keras.layers.Conv2D(64, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
-#                               kernel_regularizer=kernel_regularizer))
-# model.add(keras.layers.MaxPooling2D(2))
-# model.add(keras.layers.BatchNormalization())
-
 model.add(keras.layers.Conv2D(64, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
                               kernel_regularizer=kernel_regularizer))
-model.add(keras.layers.MaxPooling2D(2))
-model.add(keras.layers.Dropout(0.2))
 model.add(keras.layers.BatchNormalization())
 
-model.add(keras.layers.Conv2D(128, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
-                              kernel_regularizer=kernel_regularizer))
-model.add(keras.layers.Dropout(0.2))
-model.add(keras.layers.BatchNormalization())
-
-model.add(keras.layers.Conv2D(128, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
+model.add(keras.layers.Conv2D(64, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
                               kernel_regularizer=kernel_regularizer))
 model.add(keras.layers.MaxPooling2D(2))
 model.add(keras.layers.Dropout(0.2))
