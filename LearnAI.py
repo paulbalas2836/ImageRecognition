@@ -16,15 +16,7 @@ train_data = train_data.astype('float32')
 train_data = train_data / 255.0
 train_label = np_utils.to_categorical(train_label)
 x_train, x_test, y_train, y_test = train_test_split(train_data, train_label, test_size=0.2, random_state=4)
-# for train_index, test_index in KFold(n_split).split(train_data):
-#     x_train, x_test = train_data[train_index], train_data[test_index]
-#     y_train, y_test = train_label[train_index], train_label[test_index]
 
-# test_data = numpy.load('test_set.npy', allow_pickle=True)
-# test_label = numpy.load('test_label.npy', allow_pickle=True)
-# test_data = test_data.astype('float32')
-# test_data = test_data / 255.0
-# test_label = np_utils.to_categorical(test_label)
 class_num = train_label.shape[1]
 
 img_height = 64
@@ -35,7 +27,8 @@ kernel_regularizer = l2(0.0005)
 kernel_initializer = "he_normal"
 model = keras.Sequential()
 
-model.add(keras.layers.Conv2D(16, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
+model.add(keras.layers.Conv2D(16, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
+                              kernel_initializer=kernel_initializer,
                               kernel_regularizer=kernel_regularizer))
 model.add(keras.layers.BatchNormalization())
 
@@ -45,7 +38,7 @@ model.add(keras.layers.MaxPooling2D(2))
 model.add(keras.layers.Dropout(0.2))
 model.add(keras.layers.BatchNormalization())
 
-model.add(keras.layers.Conv2D(32, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
+model.add(keras.layers.Conv2D(32, 3, activation='relu', padding='same',
                               kernel_initializer=kernel_initializer,
                               kernel_regularizer=kernel_regularizer))
 model.add(keras.layers.BatchNormalization())
@@ -80,11 +73,11 @@ model.add(keras.layers.Dense(class_num, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 # model.build()
 # print(model.summary())
-# numpy.random.seed(seed)
+numpy.random.seed(seed)
 history = model.fit(x_train, y_train, batch_size=batch_size, validation_data=(x_test, y_test),
                     epochs=epochs)
 
-# model.save('Model')
+model.save('Model')
 
 pd.DataFrame(history.history).plot()
 plt.show()
