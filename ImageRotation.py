@@ -19,7 +19,7 @@ def image_augmentation():
             image = cv2.imread(name)
             height, width = image.shape[:2]
 
-            for k in range(10):
+            for k in range(20):
                 array = np.array(image)
 
                 # Flipped Image
@@ -56,7 +56,7 @@ def image_flip(array):
 
 
 def image_rotation(array):
-    image = tfa.image.rotate(array, angles=randint(0, 360), fill_mode='nearest')
+    image = tfa.image.rotate(array, angles=randint(0, 360))
     return image.numpy()
 
 
@@ -70,8 +70,7 @@ def image_noise(array):
 
 def image_translate(array, height, width):
     image = tfa.image.translate(images=array,
-                                translations=[randint(int(-width / 5), int(width / 5)), randint(int(-height / 5), int(height / 5))],
-                                fill_mode="nearest")
+                                translations=[randint(int(-width / 5), int(width / 5)), randint(int(-height / 5), int(height / 5))])
     return image.numpy()
 
 
