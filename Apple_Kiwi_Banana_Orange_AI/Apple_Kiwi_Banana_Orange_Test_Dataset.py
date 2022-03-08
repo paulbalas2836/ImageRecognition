@@ -14,7 +14,7 @@ class CreateTestSet:
         self.width = 64
 
     def create_testSet(self):
-        path = 'TestData/'
+        path = 'Test_Data/'
         for folderName in os.listdir(path):
             images = glob.glob(path + folderName + "/*")
             for name in tqdm(images):
@@ -26,8 +26,8 @@ class CreateTestSet:
         numpyTestSet = np.array(self.dataset)
         numpyLabelSet = np.array(self.labels)
         p = np.random.permutation(len(self.dataset))
-        np.save('test_set', numpyTestSet[p])
-        np.save('test_label', numpyLabelSet[p])
+        np.save('apple_kiwi_banana_orange_test_dataset', numpyTestSet[p])
+        np.save('apple_kiwi_banana_orange_label_test_dataset', numpyLabelSet[p])
 
 
 dataset = CreateTestSet()

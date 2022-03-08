@@ -110,8 +110,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-Images/
-TestData/
+Train_Data
+Test_Data/
 Model/
 
 # Spyder project settings

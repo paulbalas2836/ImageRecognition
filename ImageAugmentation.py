@@ -9,10 +9,10 @@ from tqdm import tqdm
 
 
 def image_augmentation():
-    pathDataSet = 'Images/'
+    path_apple_kiwi_banana_orange_dataset = 'Apple_Kiwi_Banana_Orange_AI/Train_Data/'
     j = 0
-    for folderName in os.listdir(pathDataSet):
-        images = glob.glob(pathDataSet + folderName + "/*")
+    for folder_name in os.listdir(path_apple_kiwi_banana_orange_dataset):
+        images = glob.glob(path_apple_kiwi_banana_orange_dataset + folder_name + "/*")
         i = 0
         for name in tqdm(images):
 
@@ -37,7 +37,7 @@ def image_augmentation():
                 if randint(0, 2) == 0:
                     newImage = image_noise(newImage)
 
-                cv2.imwrite(pathDataSet + folderName + "/image " + str(j) + str(i) + str(k) + ".png", newImage)
+                cv2.imwrite(path_apple_kiwi_banana_orange_dataset + folder_name + "/image " + str(j) + str(i) + str(k) + ".png", newImage)
             i = i + 1
         j = j + 1
 
