@@ -24,21 +24,21 @@ def create_model(save, summary, kernel_regularizer=l2(0.0005),
     batch_size = 64
 
     model = keras.Sequential()
-    # model.add(keras.layers.Conv2D(16, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
-    #                               kernel_initializer=kernel_initializer,
-    #                               kernel_regularizer=kernel_regularizer))
-    # model.add(keras.layers.BatchNormalization())
-    #
-    # model.add(keras.layers.Conv2D(16, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
-    #                               kernel_regularizer=kernel_regularizer))
-    # model.add(keras.layers.MaxPooling2D(2))
-    # model.add(keras.layers.Dropout(0.2))
-    # model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Conv2D(16, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
+                                  kernel_initializer=kernel_initializer,
+                                  kernel_regularizer=kernel_regularizer))
+    model.add(keras.layers.BatchNormalization())
 
-    # model.add(keras.layers.Conv2D(32, 3,input_shape=(img_height, img_width, 3), activation='relu', padding='same',
-    #                               kernel_initializer=kernel_initializer,
-    #                               kernel_regularizer=kernel_regularizer))
-    # model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Conv2D(16, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
+                                  kernel_regularizer=kernel_regularizer))
+    model.add(keras.layers.MaxPooling2D(2))
+    model.add(keras.layers.Dropout(0.2))
+    model.add(keras.layers.BatchNormalization())
+
+    model.add(keras.layers.Conv2D(32, 3,input_shape=(img_height, img_width, 3), activation='relu', padding='same',
+                                  kernel_initializer=kernel_initializer,
+                                  kernel_regularizer=kernel_regularizer))
+    model.add(keras.layers.BatchNormalization())
 
     model.add(keras.layers.Conv2D(32, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
                                   kernel_initializer=kernel_initializer,
@@ -47,9 +47,9 @@ def create_model(save, summary, kernel_regularizer=l2(0.0005),
     model.add(keras.layers.Dropout(0.2))
     model.add(keras.layers.BatchNormalization())
 
-    # model.add(keras.layers.Conv2D(64, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
-    #                               kernel_regularizer=kernel_regularizer))
-    # model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Conv2D(64, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
+                                  kernel_regularizer=kernel_regularizer))
+    model.add(keras.layers.BatchNormalization())
 
     model.add(keras.layers.Conv2D(64, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
                                   kernel_regularizer=kernel_regularizer))
@@ -57,17 +57,17 @@ def create_model(save, summary, kernel_regularizer=l2(0.0005),
     model.add(keras.layers.Dropout(0.2))
     model.add(keras.layers.BatchNormalization())
 
-    model.add(keras.layers.Conv2D(128, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
-                                  kernel_initializer=kernel_initializer,
-                                  kernel_regularizer=kernel_regularizer))
-    model.add(keras.layers.Dropout(0.2))
-    model.add(keras.layers.BatchNormalization(name="BatchNormalization_3"))
-
-    model.add(keras.layers.Conv2D(128, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
-                                  kernel_regularizer=kernel_regularizer))
-    model.add(keras.layers.MaxPooling2D(2))
-    model.add(keras.layers.Dropout(0.2))
-    model.add(keras.layers.BatchNormalization())
+    # model.add(keras.layers.Conv2D(128, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
+    #                               kernel_initializer=kernel_initializer,
+    #                               kernel_regularizer=kernel_regularizer))
+    # model.add(keras.layers.Dropout(0.2))
+    # model.add(keras.layers.BatchNormalization(name="BatchNormalization_3"))
+    #
+    # model.add(keras.layers.Conv2D(128, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
+    #                               kernel_regularizer=kernel_regularizer))
+    # model.add(keras.layers.MaxPooling2D(2))
+    # model.add(keras.layers.Dropout(0.2))
+    # model.add(keras.layers.BatchNormalization())
 
     model.add(keras.layers.Flatten())
 
@@ -112,10 +112,7 @@ def create_model(save, summary, kernel_regularizer=l2(0.0005),
     print("Accuracy: %.2f%%" % (scores[1] * 100))
 
     if save:
-        model.build()
-        model.summary()
         # serialize model to JSON
-        model.build()
         model_json = model.to_json()
         with open("Model/Apple_Kiwi_Banana_Orange_AI_Architecture.json", "w") as json_file:
             json_file.write(model_json)

@@ -5,16 +5,16 @@ import glob
 from tqdm import tqdm
 
 
-class CreateTestSet:
+class CreateDataset:
     def __init__(self):
-        self.FruitImage_dict = {"Apple": 0, "Banana": 1, "Kiwi": 2, "Orange": 3}
+        self.FruitImage_dict = {"Peach": 0, "Pear": 1}
         self.dataset = list()
         self.labels = list()
         self.height = 64
         self.width = 64
 
-    def create_testSet(self):
-        path = 'Test_Data/'
+    def create_dataset(self):
+        path = 'Train_Data/'
         for folderName in os.listdir(path):
             images = glob.glob(path + folderName + "/*")
             for name in tqdm(images):
@@ -23,12 +23,13 @@ class CreateTestSet:
                 self.dataset.append(image)
                 self.labels.append(self.FruitImage_dict[folderName])
 
-        numpyTestSet = np.array(self.dataset)
+        numpyDataSet = np.array(self.dataset)
         numpyLabelSet = np.array(self.labels)
         p = np.random.permutation(len(self.dataset))
-        np.save('apple_kiwi_banana_orange_test_dataset', numpyTestSet[p])
-        np.save('apple_kiwi_banana_orange_label_test_dataset', numpyLabelSet[p])
+        np.random.shuffle(self.dataset)
+        np.save('Train_Dataset/pear_peach_train_dataset', numpyDataSet[p])
+        np.save('Train_Dataset/pear_peach_label_train_dataset', numpyLabelSet[p])
 
 
-dataset = CreateTestSet()
-dataset.create_testSet()
+dataset = CreateDataset()
+dataset.create_dataset()

@@ -10,13 +10,15 @@ from tqdm import tqdm
 
 def image_augmentation():
     path_apple_kiwi_banana_orange_dataset = 'Apple_Kiwi_Banana_Orange_AI/Train_Data/'
+    path_peach_pear_dataset = 'Peach_Pear_AI/Train_Data/'
     j = 0
-    for folder_name in os.listdir(path_apple_kiwi_banana_orange_dataset):
-        images = glob.glob(path_apple_kiwi_banana_orange_dataset + folder_name + "/*")
+    for folder_name in os.listdir(path_peach_pear_dataset):
+        images = glob.glob(path_peach_pear_dataset + folder_name + "/*")
         i = 0
         for name in tqdm(images):
 
             image = cv2.imread(name)
+            image = cv2.resize(image, (64, 64))
             height, width = image.shape[:2]
 
             for k in range(20):
@@ -33,11 +35,11 @@ def image_augmentation():
                 if randint(0, 1) == 0:
                     newImage = image_translate(newImage, height, width)
 
-                # Gaussian Noise
-                if randint(0, 2) == 0:
-                    newImage = image_noise(newImage)
+                # # Gaussian Noise
+                # if randint(0, 2) == 0:
+                #     newImage = image_noise(newImage)
 
-                cv2.imwrite(path_apple_kiwi_banana_orange_dataset + folder_name + "/image " + str(j) + str(i) + str(k) + ".png", newImage)
+                cv2.imwrite(path_peach_pear_dataset + folder_name + "/image " + str(j) + str(i) + str(k) + ".png", newImage)
             i = i + 1
         j = j + 1
 
@@ -70,7 +72,7 @@ def image_noise(array):
 
 def image_translate(array, height, width):
     image = tfa.image.translate(images=array,
-                                translations=[randint(int(-width / 5), int(width / 5)), randint(int(-height / 5), int(height / 5))])
+                                translations=[randint(int(-width / 7), int(width / 7)), randint(int(-height / 7), int(height / 7))])
     return image.numpy()
 
 

@@ -112,6 +112,8 @@ env.bak/
 venv.bak/
 Train_Data
 Test_Data/
+Train_Dataset/
+Test_Dataset/
 Model/
 
 # Spyder project settings
