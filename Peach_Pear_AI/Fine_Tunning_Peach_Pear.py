@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from keras.utils import np_utils
 
+
 train_data = numpy.load('Train_Dataset/pear_peach_train_dataset.npy', allow_pickle=True)
 train_label = numpy.load('Train_Dataset/pear_peach_label_train_dataset.npy', allow_pickle=True)
 train_data = train_data.astype('float32')
@@ -15,33 +16,26 @@ x_train, x_test, y_train, y_test = train_test_split(train_data, train_label, tes
 
 class_num = train_label.shape[1]
 
-apple_kiwi_banana_orange_ai_path = 'D:/ImageRecognitionLicenta/Apple_Kiwi_Banana_Orange_AI/Model'
-
 # load json and create base model
-json_file = open(apple_kiwi_banana_orange_ai_path + '/Apple_Kiwi_Banana_Orange_AI_Architecture.json', 'r')
+json_file = open('Model/Peach_Pear_AI_Architecture.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 base_model = keras.models.model_from_json(loaded_model_json)
 
 # load weights into new model
-base_model.load_weights(apple_kiwi_banana_orange_ai_path + "/Apple_Kiwi_Banana_Orange_AI_Weights.h5")
+base_model.load_weights("Model/Peach_Pear_AI_Weights.h5", by_name=True)
 
-x = base_model.get_layer('batch_normalization_2').output
+model = keras.Sequential()
+model.add(base_model)
 
-x = keras.layers.Flatten()(x)
-
-x = keras.layers.Dense(512, activation='relu')(x)
-x = keras.layers.Dropout(0.5, name="Dropout_new_model")(x)
-x = keras.layers.BatchNormalization(name="BatchNormalization_new_model")(x)
-predictions = keras.layers.Dense(class_num, activation='softmax')(x)
-
-model = keras.Model(inputs=base_model.input, outputs=predictions)
-
-for layer in base_model.layers:
+# set first 2 blocks of Conv2D layers to non-trainable + set all BatchNormalization layers non-trainable
+for layer in base_model.layers[:12]:
     layer.trainable = False
+base_model.get_layer('batch_normalization_4').trainable = False
+base_model.get_layer('batch_normalization_5').trainable = False
 
-model.summary()
-model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(learning_rate=1e-3), metrics=['accuracy'])
+
+model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(learning_rate=1e-4), metrics=['accuracy'])
 
 history = model.fit(x_train, y_train, batch_size=64, validation_data=(x_test, y_test),
                     epochs=25)
@@ -74,10 +68,5 @@ plt.show()
 scores = model.evaluate(x_test, y_test, verbose=0)
 print("Accuracy: %.2f%%" % (scores[1] * 100))
 
-# serialize model to JSON
-model_json = model.to_json()
-with open("Model/Peach_Pear_AI_Architecture.json", "w") as json_file:
-    json_file.write(model_json)
-
-# serialize weights to HDF5
-model.save_weights("Model/Peach_Pear_AI_Weights.h5")
+model.build()
+model.summary()

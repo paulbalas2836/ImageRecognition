@@ -16,7 +16,7 @@ x_train, x_test, y_train, y_test = train_test_split(train_data, train_label, tes
 class_num = train_label.shape[1]
 
 
-def create_model(save, summary, kernel_regularizer=l2(0.0005),
+def create_model(save_with_no_top, save, summary, kernel_regularizer=l2(0.0005),
                  kernel_initializer="he_normal",
                  img_height=64, img_width=64):
     seed = 21
@@ -56,6 +56,13 @@ def create_model(save, summary, kernel_regularizer=l2(0.0005),
     model.add(keras.layers.MaxPooling2D(2))
     model.add(keras.layers.Dropout(0.2))
     model.add(keras.layers.BatchNormalization())
+
+    if save_with_no_top:
+        # serialize model to JSON without Top
+        model.build()
+        model_json = model.to_json()
+        with open("Model/Apple_Kiwi_Banana_Orange_AI_Architecture_No_Top.json", "w") as json_file:
+            json_file.write(model_json)
 
     # model.add(keras.layers.Conv2D(128, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
     #                               kernel_initializer=kernel_initializer,
@@ -126,4 +133,4 @@ def create_model(save, summary, kernel_regularizer=l2(0.0005),
         model.summary()
 
 
-create_model(save=True, summary=False)
+create_model(save_with_no_top=True, save=True, summary=True)

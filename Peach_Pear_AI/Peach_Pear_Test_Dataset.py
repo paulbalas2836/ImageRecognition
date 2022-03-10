@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 class CreateTestSet:
     def __init__(self):
-        self.FruitImage_dict = {"Apple": 0, "Banana": 1, "Kiwi": 2, "Orange": 3}
+        self.FruitImage_dict = {"Peach": 0, "Pear": 1}
         self.dataset = list()
         self.labels = list()
         self.height = 64
@@ -26,8 +26,8 @@ class CreateTestSet:
         numpyTestSet = np.array(self.dataset)
         numpyLabelSet = np.array(self.labels)
         p = np.random.permutation(len(self.dataset))
-        np.save('Test_Dataset/pear_peach_test_dataset', numpyTestSet[p])
-        np.save('Test_Dataset/pear_peach_label_test_dataset', numpyLabelSet[p])
+        np.save('Test_Dataset/peach_pear_test_dataset', numpyTestSet[p])
+        np.save('Test_Dataset/peach_pear_label_test_dataset', numpyLabelSet[p])
 
 
 dataset = CreateTestSet()

@@ -27,8 +27,8 @@ class CreateDataset:
         numpyLabelSet = np.array(self.labels)
         p = np.random.permutation(len(self.dataset))
         np.random.shuffle(self.dataset)
-        np.save('Train_Dataset/pear_peach_train_dataset', numpyDataSet[p])
-        np.save('Train_Dataset/pear_peach_label_train_dataset', numpyLabelSet[p])
+        np.save('Train_Dataset/peach_pear_train_dataset', numpyDataSet[p])
+        np.save('Train_Dataset/peach_pear_label_train_dataset', numpyLabelSet[p])
 
 
 dataset = CreateDataset()
