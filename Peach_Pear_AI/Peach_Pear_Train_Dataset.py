@@ -19,6 +19,7 @@ class CreateDataset:
             images = glob.glob(path + folderName + "/*")
             for name in tqdm(images):
                 image = cv2.imread(name)
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                 image = cv2.resize(image, (self.height, self.width))
                 self.dataset.append(image)
                 self.labels.append(self.FruitImage_dict[folderName])
@@ -26,7 +27,6 @@ class CreateDataset:
         numpyDataSet = np.array(self.dataset)
         numpyLabelSet = np.array(self.labels)
         p = np.random.permutation(len(self.dataset))
-        np.random.shuffle(self.dataset)
         np.save('Train_Dataset/peach_pear_train_dataset', numpyDataSet[p])
         np.save('Train_Dataset/peach_pear_label_train_dataset', numpyLabelSet[p])
 

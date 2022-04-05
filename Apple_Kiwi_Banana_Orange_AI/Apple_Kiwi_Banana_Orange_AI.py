@@ -3,7 +3,9 @@ import pandas as pd
 from keras.regularizers import l2
 from matplotlib import pyplot as plt
 from tensorflow import keras
+import tensorflow as tf
 from keras.utils import np_utils
+import tensorflowjs as tfjs
 from sklearn.model_selection import train_test_split
 
 train_data = numpy.load('apple_kiwi_banana_orange_train_dataset.npy', allow_pickle=True)
@@ -35,13 +37,11 @@ def create_model(save_with_no_top, save, summary, kernel_regularizer=l2(0.0005),
     model.add(keras.layers.Dropout(0.2))
     model.add(keras.layers.BatchNormalization())
 
-    model.add(keras.layers.Conv2D(32, 3,input_shape=(img_height, img_width, 3), activation='relu', padding='same',
-                                  kernel_initializer=kernel_initializer,
+    model.add(keras.layers.Conv2D(32, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
                                   kernel_regularizer=kernel_regularizer))
     model.add(keras.layers.BatchNormalization())
 
-    model.add(keras.layers.Conv2D(32, 3, input_shape=(img_height, img_width, 3), activation='relu', padding='same',
-                                  kernel_initializer=kernel_initializer,
+    model.add(keras.layers.Conv2D(32, 3, activation='relu', padding='same', kernel_initializer=kernel_initializer,
                                   kernel_regularizer=kernel_regularizer))
     model.add(keras.layers.MaxPooling2D(2))
     model.add(keras.layers.Dropout(0.2))
@@ -85,7 +85,8 @@ def create_model(save_with_no_top, save, summary, kernel_regularizer=l2(0.0005),
     model.add(keras.layers.BatchNormalization())
 
     model.add(keras.layers.Dense(class_num, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(learning_rate=1e-3), metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(learning_rate=1e-3),
+                  metrics=['accuracy'])
     numpy.random.seed(seed)
     history = model.fit(x_train, y_train, batch_size=batch_size, validation_data=(x_test, y_test),
                         epochs=epochs)
@@ -127,10 +128,15 @@ def create_model(save_with_no_top, save, summary, kernel_regularizer=l2(0.0005),
         # serialize weights to HDF5
         model.save_weights("Model/Apple_Kiwi_Banana_Orange_AI_Weights.h5")
 
+        # save whole model
+        tfjs.converters.save_keras_model(model, "Model/JS")
+
+        tf.saved_model.save(model, "Model/PB")
+
     # Check the summary of the model
     if summary:
         model.build()
         model.summary()
 
 
-create_model(save_with_no_top=True, save=True, summary=True)
+create_model(save_with_no_top=True, save=True, summary=False)

@@ -31,8 +31,8 @@ model.add(base_model)
 # set first 2 blocks of Conv2D layers to non-trainable + set all BatchNormalization layers non-trainable
 for layer in base_model.layers[:12]:
     layer.trainable = False
-base_model.get_layer('batch_normalization_4').trainable = False
-base_model.get_layer('batch_normalization_5').trainable = False
+base_model.get_layer('sequential').get_layer('batch_normalization_4').trainable = False
+base_model.get_layer('sequential').get_layer('batch_normalization_5').trainable = False
 
 
 model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(learning_rate=1e-4), metrics=['accuracy'])
